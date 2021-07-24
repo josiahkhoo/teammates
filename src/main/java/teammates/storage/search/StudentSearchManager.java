@@ -1,5 +1,6 @@
 package teammates.storage.search;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,8 +66,11 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
         SolrQuery query = getBasicQuery(queryString);
 
         if (instructors != null) {
+            if (instructors.isEmpty()) {
+                return new ArrayList<>();
+            }
             String filterQueryString = prepareFilterQueryString(instructors);
-            query.addFilterQuery(filterQueryString);
+            query.addFilterQuery("courseId:(" + filterQueryString + ")");
         }
 
         QueryResponse response = performQuery(query);
@@ -77,7 +81,7 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
         return instructors.stream()
                 .filter(i -> i.getPrivileges().getCourseLevelPrivileges()
                         .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
-                .map(ins -> ins.getCourseId()).collect(Collectors.joining(" "));
+                .map(ins -> ins.getCourseId()).collect(Collectors.joining(" OR "));
     }
 
 }

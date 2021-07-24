@@ -79,6 +79,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         QueryResponse response = null;
 
         try {
+            log.info("Query: " + query.getQuery());
             response = client.query(getCollectionName(), query);
         } catch (SolrServerException e) {
             Throwable rootCause = e.getRootCause();
