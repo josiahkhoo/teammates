@@ -80,6 +80,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
 
         try {
             log.info("Query: " + query.getQuery());
+            log.info("FQ: " + String.join(",", query.getFilterQueries()));
             response = client.query(getCollectionName(), query);
         } catch (SolrServerException e) {
             Throwable rootCause = e.getRootCause();
@@ -233,6 +234,9 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         List<T> result = new ArrayList<>();
 
         for (SolrDocument document : response.getResults()) {
+            String courseId = (String) document.getFirstValue("courseId");
+            String email = (String) document.getFirstValue("email");
+            log.info(String.format("Converting document: %s/%s)", courseId, email));
             T attribute = getAttributeFromDocument(document);
             if (attribute == null) {
                 // search engine out of sync as SearchManager may fail to delete documents
