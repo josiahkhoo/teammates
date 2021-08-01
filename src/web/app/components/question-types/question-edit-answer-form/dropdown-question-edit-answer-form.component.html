@@ -1,0 +1,11 @@
+<tr>
+    <td>
+        <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-success" ngbDropdownToggle *ngIf="isDropdownOptionSelected.includes(true)">{{ responseDetails.answer }}</button>
+            <button class="btn btn-outline-primary" ngbDropdownToggle *ngIf="!isDropdownOptionSelected.includes(true)">Select Option</button>
+            <div ngbDropdownMenu>
+                <button *ngFor="let num of questionDetails.dropdownChoices; let i = index;" ngbDropdownItem (click)="updateSelectedDropdownOption(i)" [disabled]="isDisabled">{{ questionDetails.dropdownChoices[i] }}</button>
+            </div>
+        </div>
+    </td>
+</tr>

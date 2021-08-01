@@ -448,6 +448,7 @@ this session.`;
       } else {
         this.loadFeedbackResponses(model);
       }
+
     }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 

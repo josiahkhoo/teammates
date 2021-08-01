@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div>
+            <div id="options-section" cdkDropList (cdkDropListDropped)="onDropdownOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
+                <div class="row margin-top-22px" *ngFor="let num of model.dropdownChoices; let i = index;
+        trackBy: trackDropdownOption" cdkDrag cdkDragLockAxis="y">
+                    <br>
+                    <div class="col-sm-1" cdkDragHandle>
+                        <span class="btn input-group-addon">&#8597; </span>
+                    </div>
+                    <div class="col-sm-10">
+                        <tm-dropdown-field (elementDeleted)="onDropdownOptionDeleted($event)"
+                                      (dropdownText)="onDropdownOptionEntered($event, i)"
+                                      [index]="i"
+                                      [isEditable]="isEditable"
+                                      [numberOfDropdownChoices]="model.numOfDropdownChoices"
+                                      [text]="model.dropdownChoices[i]"></tm-dropdown-field>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <button id="btn-add-option" class="btn btn-primary" name="button" ngDefaultControl
+                            [disabled]="!isEditable" (click)="increaseNumberOfOptions()">
+                        <i class="fas fa-plus"></i> add more options
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

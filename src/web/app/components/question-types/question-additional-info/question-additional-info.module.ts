@@ -6,6 +6,7 @@ import {
   ConstsumRecipientsQuestionAdditionalInfoComponent,
 } from './constsum-recipients-question-additional-info.component';
 import { ContributionQuestionAdditionalInfoComponent } from './contribution-question-additional-info.component';
+import { DropdownQuestionAdditionalInfoComponent } from './dropdown-question-additional-info.component';
 import { McqQuestionAdditionalInfoComponent } from './mcq-question-additional-info.component';
 import { MsqQuestionAdditionalInfoComponent } from './msq-question-additional-info.component';
 import { NumScaleQuestionAdditionalInfoComponent } from './num-scale-question-additional-info.component';
@@ -29,6 +30,7 @@ import { TextQuestionAdditionalInfoComponent } from './text-question-additional-
     RankRecipientsQuestionAdditionalInfoComponent,
     ConstsumOptionsQuestionAdditionalInfoComponent,
     ConstsumRecipientsQuestionAdditionalInfoComponent,
+    DropdownQuestionAdditionalInfoComponent,
   ],
   exports: [
     ContributionQuestionAdditionalInfoComponent,
@@ -41,10 +43,12 @@ import { TextQuestionAdditionalInfoComponent } from './text-question-additional-
     RankRecipientsQuestionAdditionalInfoComponent,
     ConstsumOptionsQuestionAdditionalInfoComponent,
     ConstsumRecipientsQuestionAdditionalInfoComponent,
+    DropdownQuestionAdditionalInfoComponent,
   ],
   imports: [
     CommonModule,
     TeammatesCommonModule,
   ],
 })
-export class QuestionAdditionalInfoModule { }
+export class QuestionAdditionalInfoModule {
+}

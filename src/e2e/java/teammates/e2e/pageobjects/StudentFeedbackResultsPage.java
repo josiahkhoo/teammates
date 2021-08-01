@@ -24,6 +24,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackDropdownQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
@@ -152,10 +153,10 @@ public class StudentFeedbackResultsPage extends AppPage {
         for (String recipient : recipients) {
             List<FeedbackResponseAttributes> expectedResponses = otherResponses.stream()
                     .filter(r -> r.getRecipient().equals(recipient)
-                        && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                        || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)
-                        || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                        || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)))
+                            && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)))
                     .collect(Collectors.toList());
 
             verifyResponseForRecipient(question, recipient, expectedResponses, visibleGivers, visibleRecipients);
@@ -314,6 +315,13 @@ public class StudentFeedbackResultsPage extends AppPage {
                 questionDetails.getMsqChoices(), questionDetails.isOtherEnabled());
     }
 
+    private String getDropdownAddInfo(FeedbackDropdownQuestionDetails questionDetails) {
+        String additionalInfo = "Dropdown question options:" + System.lineSeparator();
+        StringBuilder info = new StringBuilder(additionalInfo);
+        appendOptions(info, questionDetails.getDropdownChoices());
+        return info.toString();
+    }
+
     private String appendMultiChoiceInfo(String info, FeedbackParticipantType generateOptionsFor, List<String> choices,
                                          boolean isOtherEnabled) {
         StringBuilder additionalInfo = new StringBuilder(info);
@@ -439,13 +447,15 @@ public class StudentFeedbackResultsPage extends AppPage {
             return getConstSumOptionsAddInfo((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
         case CONSTSUM_RECIPIENTS:
             return getConstSumRecipientsAddInfo((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+        case DROPDOWN:
+            return getDropdownAddInfo((FeedbackDropdownQuestionDetails) question.getQuestionDetailsCopy());
         default:
             throw new AssertionError("Unknown question type: " + question.getQuestionType());
         }
     }
 
     private String getAnswerString(FeedbackQuestionAttributes question, FeedbackResponseDetails response) {
-        switch(response.getQuestionType()) {
+        switch (response.getQuestionType()) {
         case TEXT:
         case NUMSCALE:
         case RANK_RECIPIENTS:
@@ -460,6 +470,7 @@ public class StudentFeedbackResultsPage extends AppPage {
             return getConstSumOptionsAnsString((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackConstantSumResponseDetails) response);
         case RUBRIC:
+        case DROPDOWN:
         case CONTRIB:
             return "";
         default:

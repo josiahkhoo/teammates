@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { ConstsumQuestionResponseComponent } from './constsum-question-response.component';
 import { ContributionQuestionResponseComponent } from './contribution-question-response.component';
+import { DropdownQuestionResponseComponent } from './dropdown-question-response.component';
 import { McqQuestionResponseComponent } from './mcq-question-response.component';
 import { MsqQuestionResponseComponent } from './msq-question-response.component';
 import { NumScaleQuestionResponseComponent } from './num-scale-question-response.component';
@@ -25,6 +26,7 @@ import { TextQuestionResponseComponent } from './text-question-response.componen
     ConstsumQuestionResponseComponent,
     RankOptionsQuestionResponseComponent,
     RankRecipientsQuestionResponseComponent,
+    DropdownQuestionResponseComponent,
   ],
   exports: [
     ContributionQuestionResponseComponent,
@@ -36,10 +38,12 @@ import { TextQuestionResponseComponent } from './text-question-response.componen
     ConstsumQuestionResponseComponent,
     RankOptionsQuestionResponseComponent,
     RankRecipientsQuestionResponseComponent,
+    DropdownQuestionResponseComponent,
   ],
   imports: [
     CommonModule,
     TeammatesCommonModule,
   ],
 })
-export class QuestionResponseModule { }
+export class QuestionResponseModule {
+}

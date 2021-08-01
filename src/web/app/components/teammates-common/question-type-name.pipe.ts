@@ -34,6 +34,8 @@ export class QuestionTypeNamePipe implements PipeTransform {
         return 'Distribute points (among options) question';
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         return 'Distribute points (among recipients) question';
+      case FeedbackQuestionType.DROPDOWN:
+        return 'Dropdown question';
       default:
         return 'Unknown';
     }
