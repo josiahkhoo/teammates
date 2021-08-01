@@ -8,6 +8,8 @@ import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetail
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackDropdownQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackDropdownResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
@@ -48,7 +50,9 @@ public enum QuestionTypeStructures {
     DEFAULT_RUBRIC_QUESTION_DETAILS(new FeedbackRubricQuestionDetails("")),
     DEFAULT_RUBRIC_RESPONSE_DETAILS(new FeedbackRubricResponseDetails()),
     DEFAULT_TEXT_QUESTION_DETAILS(new FeedbackTextQuestionDetails("")),
-    DEFAULT_TEXT_RESPONSE_DETAILS(new FeedbackTextResponseDetails());
+    DEFAULT_TEXT_RESPONSE_DETAILS(new FeedbackTextResponseDetails()),
+    DEFAULT_DROPDOWN_QUESTION_DETAILS(new FeedbackDropdownQuestionDetails("")),
+    DEFAULT_DROPDOWN_RESPONSE_DETAILS(new FeedbackDropdownResponseDetails());
     // CHECKSTYLE.ON:JavadocVariable
 
     @JsonValue
