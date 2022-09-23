@@ -3,7 +3,7 @@ import {
   FeedbackConstantSumQuestionDetails,
   FeedbackConstantSumResponseDetails,
   FeedbackContributionQuestionDetails,
-  FeedbackContributionResponseDetails,
+  FeedbackContributionResponseDetails, FeedbackDropdownQuestionDetails, FeedbackDropdownResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
   FeedbackMsqQuestionDetails,
@@ -170,4 +170,20 @@ export const DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS: () => FeedbackRankRecipie
 export const DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS: () => FeedbackRankRecipientsResponseDetails =
     (): FeedbackRankRecipientsResponseDetails => {
       return JSON.parse(QuestionTypeStructures.DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS);
+    };
+
+/**
+ * Structure for default dropdown question details.
+ */
+export const DEFAULT_DROPDOWN_QUESTION_DETAILS: () => FeedbackDropdownQuestionDetails =
+    (): FeedbackDropdownQuestionDetails => {
+      return JSON.parse(QuestionTypeStructures.DEFAULT_DROPDOWN_QUESTION_DETAILS);
+    };
+
+/**
+ * Structure for default dropdown response details.
+ */
+export const DEFAULT_DROPDOWN_RESPONSE_DETAILS: () => FeedbackDropdownResponseDetails =
+    (): FeedbackDropdownResponseDetails => {
+      return JSON.parse(QuestionTypeStructures.DEFAULT_DROPDOWN_RESPONSE_DETAILS);
     };

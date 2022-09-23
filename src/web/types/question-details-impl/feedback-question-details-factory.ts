@@ -1,6 +1,6 @@
 import {
   FeedbackConstantSumQuestionDetails,
-  FeedbackContributionQuestionDetails,
+  FeedbackContributionQuestionDetails, FeedbackDropdownQuestionDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMsqQuestionDetails,
   FeedbackNumericalScaleQuestionDetails,
@@ -15,6 +15,7 @@ import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-de
 import { FeedbackConstantSumOptionsQuestionDetailsImpl } from './feedback-constsum-options-question-details.impl';
 import { FeedbackConstantSumRecipientsQuestionDetailsImpl } from './feedback-constsum-recipient-question-details.impl';
 import { FeedbackContributionQuestionDetailsImpl } from './feedback-contribution-question-details.impl';
+import { FeedbackDropdownQuestionDetailsImpl } from './feedback-dropdown-question-details.impl';
 import { FeedbackMcqQuestionDetailsImpl } from './feedback-mcq-question-details.impl';
 import { FeedbackMsqQuestionDetailsImpl } from './feedback-msq-question-details.impl';
 import { FeedbackNumericalScaleQuestionDetailsImpl } from './feedback-num-scale-question-details.impl';
@@ -54,6 +55,8 @@ export class FeedbackQuestionDetailsFactory {
         return new FeedbackRubricQuestionDetailsImpl(details as FeedbackRubricQuestionDetails);
       case FeedbackQuestionType.TEXT:
         return new FeedbackTextQuestionDetailsImpl(details as FeedbackTextQuestionDetails);
+      case FeedbackQuestionType.DROPDOWN:
+        return new FeedbackDropdownQuestionDetailsImpl(details as FeedbackDropdownQuestionDetails);
       default:
         throw new Error(`Unknown question type: ${details.questionType}`);
     }

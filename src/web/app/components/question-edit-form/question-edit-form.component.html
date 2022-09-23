@@ -90,6 +90,7 @@
               <tm-rubric-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RUBRIC" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rubric-question-edit-details-form>
               <tm-constsum-options-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-constsum-options-question-edit-details-form>
               <tm-constsum-recipients-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-constsum-recipients-question-edit-details-form>
+              <tm-dropdown-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.DROPDOWN" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-dropdown-question-edit-details-form>
             </div>
           </div>
         </div>

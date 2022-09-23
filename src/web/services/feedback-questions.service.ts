@@ -3,20 +3,25 @@ import { Observable } from 'rxjs';
 import { default as templateQuestions } from '../data/template-questions.json';
 import { ResourceEndpoints } from '../types/api-const';
 import {
+  FeedbackDropdownQuestionDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
-  FeedbackQuestionDetails, FeedbackQuestionRecipients, FeedbackQuestions,
+  FeedbackQuestionDetails,
+  FeedbackQuestionRecipients,
+  FeedbackQuestions,
   FeedbackQuestionType,
-  FeedbackRankOptionsQuestionDetails, FeedbackRubricQuestionDetails,
+  FeedbackRankOptionsQuestionDetails,
+  FeedbackRubricQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../types/api-output';
 import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest, Intent } from '../types/api-request';
 import {
-  DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS, DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
-  DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
+  DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
+  DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
+  DEFAULT_CONTRIBUTION_QUESTION_DETAILS, DEFAULT_DROPDOWN_QUESTION_DETAILS,
   DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_MSQ_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
@@ -46,7 +51,8 @@ export interface TemplateQuestion {
 })
 export class FeedbackQuestionsService {
 
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(private httpRequestService: HttpRequestService) {
+  }
 
   /**
    * Gets allowed feedback paths based on question type as some feedback paths does not make
@@ -78,6 +84,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.NUMSCALE:
       case FeedbackQuestionType.RANK_OPTIONS:
       case FeedbackQuestionType.RUBRIC:
+      case FeedbackQuestionType.DROPDOWN:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
         paths.set(FeedbackParticipantType.SELF,
           [FeedbackParticipantType.SELF, FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS,
@@ -125,6 +132,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.NUMSCALE:
       case FeedbackQuestionType.RANK_OPTIONS:
       case FeedbackQuestionType.RUBRIC:
+      case FeedbackQuestionType.DROPDOWN:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
         paths.set(FeedbackParticipantType.SELF,
             [FeedbackParticipantType.NONE, FeedbackParticipantType.SELF, FeedbackParticipantType.INSTRUCTORS]);
@@ -183,6 +191,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RANK_RECIPIENTS:
       case FeedbackQuestionType.RUBRIC:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
+      case FeedbackQuestionType.DROPDOWN:
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         settings.push({
           name: 'Shown anonymously to recipient and instructors',
@@ -279,6 +288,8 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RANK_RECIPIENTS:
         return true;
       case FeedbackQuestionType.RUBRIC:
+      case FeedbackQuestionType.DROPDOWN:
+        return true;
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
         return true;
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
@@ -504,6 +515,29 @@ export class FeedbackQuestionsService {
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
 
+      case FeedbackQuestionType.DROPDOWN:
+
+        const dropdownQuestionDetails: FeedbackDropdownQuestionDetails = DEFAULT_DROPDOWN_QUESTION_DETAILS();
+        dropdownQuestionDetails.numOfDropdownChoices = 2;
+        dropdownQuestionDetails.dropdownChoices = ['', ''];
+
+        return {
+          questionBrief: '',
+          questionDescription: '',
+
+          questionType: FeedbackQuestionType.DROPDOWN,
+          questionDetails: dropdownQuestionDetails,
+          giverType: FeedbackParticipantType.STUDENTS,
+          recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+          numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+          showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
+            FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+          showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+          showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+        };
+
       default:
         throw new Error(`Unsupported question type ${type}`);
     }
@@ -614,7 +648,7 @@ export class FeedbackQuestionsService {
  */
 export interface CommonVisibilitySetting {
   name: string;
-  visibilitySettings: {[TKey in VisibilityControl]: FeedbackVisibilityType[]};
+  visibilitySettings: { [TKey in VisibilityControl]: FeedbackVisibilityType[] };
 }
 
 /**

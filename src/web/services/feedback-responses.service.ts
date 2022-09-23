@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  InstructorSessionResultSectionType,
-} from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import {
-  FeedbackResponsesResponse,
-} from '../app/pages-session/session-submission-page/session-submission-page.component';
+import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { FeedbackResponsesResponse } from '../app/pages-session/session-submission-page/session-submission-page.component';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumResponseDetails,
-  FeedbackContributionResponseDetails,
+  FeedbackContributionResponseDetails, FeedbackDropdownResponseDetails,
   FeedbackMcqResponseDetails,
   FeedbackMsqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
@@ -26,6 +22,7 @@ import { FeedbackResponsesRequest, Intent } from '../types/api-request';
 import {
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
+  DEFAULT_DROPDOWN_RESPONSE_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
   DEFAULT_MSQ_RESPONSE_DETAILS,
   DEFAULT_NUMSCALE_RESPONSE_DETAILS,
@@ -38,7 +35,8 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
-  RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED, RUBRIC_ANSWER_NOT_CHOSEN,
+  RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
+  RUBRIC_ANSWER_NOT_CHOSEN,
 } from '../types/feedback-response-details';
 import { HttpRequestService } from './http-request.service';
 
@@ -50,7 +48,8 @@ import { HttpRequestService } from './http-request.service';
 })
 export class FeedbackResponsesService {
 
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(private httpRequestService: HttpRequestService) {
+  }
 
   /**
    * Gets the default feedback response details based on {@code questionType}.
@@ -77,6 +76,8 @@ export class FeedbackResponsesService {
         return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
+      case FeedbackQuestionType.DROPDOWN:
+        return DEFAULT_DROPDOWN_RESPONSE_DETAILS();
       default:
         throw new Error(`Unknown question type ${questionType}`);
     }
@@ -125,6 +126,9 @@ export class FeedbackResponsesService {
         const constsumRecipientsDetails: FeedbackConstantSumResponseDetails =
             details as FeedbackConstantSumResponseDetails;
         return constsumRecipientsDetails.answers.length === 0;
+      case FeedbackQuestionType.DROPDOWN:
+        const dropdownDetails: FeedbackDropdownResponseDetails = details as FeedbackDropdownResponseDetails;
+        return dropdownDetails.answer == null;
       default:
         return true;
     }
@@ -134,7 +138,7 @@ export class FeedbackResponsesService {
    * Determines whether responses should be displayed based on the selected section.
    */
   isFeedbackResponsesDisplayedOnSection(response: ResponseOutput, section: string,
-      sectionType: InstructorSessionResultSectionType): boolean {
+                                        sectionType: InstructorSessionResultSectionType): boolean {
 
     let isDisplayed: boolean = true;
 
